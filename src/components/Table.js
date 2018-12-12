@@ -1,15 +1,23 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import Choise from './Choise.js'
+import Choise from './Choise.js';
+import getResTrsArr from '../getResTrsArr.js';
 
 class Table extends Component {
     state = {
         dataDeps: '',
         dataArrs: '',
-        depsShow: true
-    }
+        depsShow: true,
+        neededFlight: ''
+    };
 
+    updateData = () => {
+        this.setState({depsShow: !this.state.depsShow})
+    };
+    filterByFlight = (flight) => {
+        this.setState({neededFlight: flight})
+    }
     componentDidMount() {
         axios({
             method: 'get',
@@ -33,42 +41,10 @@ class Table extends Component {
             })
     }
     render() {
-        let updateData = (val) => {
-            {this.setState({depsShow: !this.state.depsShow})}
-        }
-
-        let divData = (data) => {
-            let numbers = [],
-                planes = [],
-                from = [],
-                to = [],
-                statuses = [],
-                dataArr = [],
-                resTrsArr = [];
-
-            if (data.forEach) {
-                data.forEach(flight => {
-                    numbers.push(flight['flight']['iataNumber']);
-                    planes.push(flight['aircraft']['iataCode']);
-                    from.push(flight['departure']['iataCode']);
-                    to.push(flight['arrival']['iataCode']);
-                    statuses.push(flight['status']);
-                });
-            }
-
-            dataArr.push(numbers, planes, from, to, statuses);
-
-            for (let i = 0; i < numbers.length; i++) {
-                let trArr = [];
-                dataArr.forEach(arr => trArr.push(arr[i]));
-                resTrsArr.push(trArr);
-            }
-            return resTrsArr;
-        }
         return (
             <div>
-                <Choise updateData={this.updateData}/>
-                <h1>Departures</h1>
+                <Choise updateData={this.updateData.bind(this)} filterByFlight={this.filterByFlight.bind(this)}/>
+                <h1>{this.state.depsShow ? 'Departures' : 'Arrives'}</h1>
                 <table>
                     <tbody>
                     <tr>
@@ -79,7 +55,8 @@ class Table extends Component {
                         <th>Status</th>
                     </tr>
                     {
-                        divData(this.state.dataDeps).map(arr => (
+                        getResTrsArr(this.state.depsShow ? this.state.dataDeps : this.state.dataArrs)
+                            .map(arr => (
                             <tr>
                                 {arr.map(item => (<td>{item}</td>))}
                             </tr>

@@ -9,8 +9,14 @@ td {
   border: 1px solid #000;
 }
 .choise {
+  display: flex;
+  align-items: center;
   background-color: aquamarine;
   padding: 20px 0;
+}
+.choise > section {
+  display: flex;
+  flex-direction: column;
 }
 .choise button {
   margin: 0 20px;
