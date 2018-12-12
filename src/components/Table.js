@@ -25,7 +25,7 @@ class Table extends Component {
     componentDidMount() {
         axios({
             method: 'get',
-            url: 'http://aviation-edge.com/v2/public/flights?key=c481d7-fca75d&depIata=SVO',
+            url: 'https://aviation-edge.com/v2/public/flights?key=c481d7-fca75d&depIata=SVO',
         })
             .then(response => {
                 this.setState({dataDeps: response.data});
@@ -35,7 +35,7 @@ class Table extends Component {
             });
         axios({
             method: 'get',
-            url: 'http://aviation-edge.com/v2/public/flights?key=c481d7-fca75d&arrIata=SVO'
+            url: 'https://aviation-edge.com/v2/public/flights?key=c481d7-fca75d&arrIata=SVO'
         })
             .then(response => {
                 this.setState({dataArrs: response.data});
@@ -62,18 +62,22 @@ class Table extends Component {
                         <th>Status</th>
                     </tr>
                     {
+                        //Эта жуткая штука проходится по массиву с данными, полученному из getResTrsArr
                         getResTrsArr(this.state.depsShow ? this.state.dataDeps : this.state.dataArrs)
                             .map(arr => {
+                                //Здесь я прикрутил фильтры, хотя следовало бы это сделать в другом месте
                                 if (arr[0] === this.state.neededFlight) {
+                                    //Возвращаем строку, проходясь по каждому arr из getResTrsArr
                                     return <tr className={'selectedTr1'}>
-                                        {arr.map(item => (<td>{item}</td>))}
+                                        {arr.map(item => <td>{item}</td>)}
                                     </tr>
+                                    //Здесь я прикрутил фильтры, хотя следовало бы это сделать в другом месте
                                 } else if (arr[1] === this.state.neededPlane) {
                                     return <tr className={'selectedTr2'}>
-                                        {arr.map(item => (<td>{item}</td>))}
+                                        {arr.map(item => <td>{item}</td>)}
                                     </tr>
                                 } else  return <tr>
-                                    {arr.map(item => (<td>{item}</td>))}
+                                    {arr.map(item => <td>{item}</td>)}
                                 </tr>
                             })
                     }

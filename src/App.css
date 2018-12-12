@@ -7,7 +7,6 @@ table {
 }
 td {
   border: 1px solid #000;
-  max-width: 20%;
 }
 .choise {
   display: flex;
