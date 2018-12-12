@@ -9,7 +9,8 @@ class Table extends Component {
         dataDeps: '',
         dataArrs: '',
         depsShow: true,
-        neededFlight: ''
+        neededFlight: '',
+        neededPlane: ''
     };
 
     updateData = () => {
@@ -17,7 +18,10 @@ class Table extends Component {
     };
     filterByFlight = (flight) => {
         this.setState({neededFlight: flight})
-    }
+    };
+    filterByPlane = (plane) => {
+        this.setState({neededPlane: plane})
+    };
     componentDidMount() {
         axios({
             method: 'get',
@@ -28,7 +32,7 @@ class Table extends Component {
             })
             .catch(error => {
                 console.log(error)
-            })
+            });
         axios({
             method: 'get',
             url: 'http://aviation-edge.com/v2/public/flights?key=c481d7-fca75d&arrIata=SVO'
@@ -43,7 +47,10 @@ class Table extends Component {
     render() {
         return (
             <div>
-                <Choise updateData={this.updateData.bind(this)} filterByFlight={this.filterByFlight.bind(this)}/>
+                <Choise updateData={this.updateData.bind(this)}
+                        filterByFlight={this.filterByFlight.bind(this)}
+                        filterByPlane={this.filterByPlane.bind(this)}
+                />
                 <h1>{this.state.depsShow ? 'Departures' : 'Arrives'}</h1>
                 <table>
                     <tbody>
@@ -56,11 +63,19 @@ class Table extends Component {
                     </tr>
                     {
                         getResTrsArr(this.state.depsShow ? this.state.dataDeps : this.state.dataArrs)
-                            .map(arr => (
-                            <tr>
-                                {arr.map(item => (<td>{item}</td>))}
-                            </tr>
-                        ))
+                            .map(arr => {
+                                if (arr[0] === this.state.neededFlight) {
+                                    return <tr className={'selectedTr1'}>
+                                        {arr.map(item => (<td>{item}</td>))}
+                                    </tr>
+                                } else if (arr[1] === this.state.neededPlane) {
+                                    return <tr className={'selectedTr2'}>
+                                        {arr.map(item => (<td>{item}</td>))}
+                                    </tr>
+                                } else  return <tr>
+                                    {arr.map(item => (<td>{item}</td>))}
+                                </tr>
+                            })
                     }
                     </tbody>
                 </table>

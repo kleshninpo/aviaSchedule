@@ -11,9 +11,9 @@ export default (data) => {
 
     if (data.forEach) {
         data.forEach(flight => {
-            numbers.push(flight['flight']['iataNumber']);
-            planes.push(flight['aircraft']['iataCode']);
-            from.push(flight['departure']['iataCode']);
+            flight['flight']['iataNumber'] ? numbers.push(flight['flight']['iataNumber']) : numbers.push('no information');
+            flight['aircraft']['iataCode'] ? planes.push(flight['aircraft']['iataCode']) : planes.push('no information');
+            flight['departure']['iataCode'] ? from.push(flight['departure']['iataCode']) : from.push('no information');
             to.push(flight['arrival']['iataCode']);
             statuses.push(flight['status']);
         });

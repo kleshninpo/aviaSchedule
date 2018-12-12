@@ -7,6 +7,7 @@ table {
 }
 td {
   border: 1px solid #000;
+  max-width: 20%;
 }
 .choise {
   display: flex;
@@ -17,11 +18,17 @@ td {
 .choise > section {
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
 }
 .choise button {
   margin: 0 20px;
 }
-
+.selectedTr1 {
+  background-color: darkturquoise;
+}
+.selectedTr2 {
+  background-color: tomato;
+}
 
 @keyframes App-logo-spin {
   from {
