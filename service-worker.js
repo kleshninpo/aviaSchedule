@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/aviaSchedule/precache-manifest.aeff025970d2a470394fde8802c59c54.js"
+  "/aviaSchedule/precache-manifest.30d4b1354f3270366c125c6355ea50f1.js"
 );
 
 workbox.clientsClaim();
